@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.3 - 2026-06-30
+
+- Removes Codex plugin metadata and the duplicate `codex/` alias mirror.
+- Keeps `skills/` as the single shared ordinary alias source for Codex and Claude.
+- Adds validation that plugin manifests and duplicate alias directories do not return.
+
 ## 0.3.2 - 2026-06-30
 
 - Removes the Claude plugin manifest path; Claude explicit invocation now uses ordinary skills and legacy command files only.

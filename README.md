@@ -28,7 +28,7 @@ The skill remains the behavior authority. For ordinary installation, use the nor
 | Agent | Files | Register by copying to | Invoke |
 |---|---|---|---|
 | Codex main skill | `SKILL.md` | `~/.codex/skills/vault-crystallize/SKILL.md` | `$vault-crystallize` |
-| Codex alias skills | `skills/crystallize/`, `skills/distill/` or `codex/crystallize/`, `codex/distill/` | `~/.codex/skills/crystallize/`, `~/.codex/skills/distill/` | `$crystallize`, `$distill` |
+| Codex alias skills | `skills/crystallize/`, `skills/distill/` | `~/.codex/skills/crystallize/`, `~/.codex/skills/distill/` | `$crystallize`, `$distill` |
 | Codex prompts | `commands/codex/*.md` | `~/.codex/prompts/` | `/prompts:crystallize`, `/prompts:distill` |
 | Claude Code skill | `SKILL.md` | `~/.claude/skills/vault-crystallize/SKILL.md` | `/vault-crystallize` |
 | Claude Code alias skills | `skills/crystallize/`, `skills/distill/` | `~/.claude/skills/crystallize/`, `~/.claude/skills/distill/` | `/crystallize`, `/distill` |
@@ -42,7 +42,7 @@ Notes:
 - Codex custom prompts are deprecated, but still provide explicit slash-command UX in Codex CLI and IDE extension.
 - Claude Code skills are the recommended current package format and can be invoked as `/skill-name`; `.claude/commands/` remains the legacy command format that still registers `/name`.
 - Gemini CLI loads TOML commands from `.gemini/commands/`; use `/commands reload` after copying command files into a running session.
-- `.codex-plugin/plugin.json` is optional Codex plugin metadata. This repo does not require plugin installation for Codex or Claude.
+- This repo intentionally does not ship Codex or Claude plugin manifests; both agents use ordinary skill installation.
 
 ## Installation Model
 
@@ -54,7 +54,7 @@ https://github.com/WIHATN/vault-crystallize
 
 This repo does not prescribe local `.claude/skills`, `.agents/skills`, junction, or symlink layouts.
 
-Explicit-invocation wrappers under `commands/` and `codex/` are source artifacts. Copy them into the target agent's supported command directory only when that UX is wanted.
+Explicit-invocation wrappers under `skills/` and `commands/` are source artifacts. Copy them into the target agent's supported directory only when that UX is wanted.
 
 ## Smoke Test
 

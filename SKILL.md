@@ -25,7 +25,7 @@ Do not use this skill for `neat-freak`, deep audits, broad doc cleanup, memory s
 
 Agents that have not installed this skill are an installation/update concern, not a reason to duplicate crystallize behavior back into vault protocols. Do not create `.claude/skills`, `.agents/skills`, junctions, or per-agent install paths unless the user explicitly asks for installation work.
 
-Native command wrappers live in `commands/` and `commands/<agent>/`. Shared ordinary alias skills live under `skills/`; `codex/` mirrors those aliases for PUA-style Codex manual installs. Treat all of them as explicit invocation adapters; keep `SKILL.md` as the behavior authority when updating them.
+Native command wrappers live in `commands/` and `commands/<agent>/`. Shared ordinary alias skills live under `skills/`; do not add duplicate alias `SKILL.md` files under platform-specific directories because Codex may recursively discover them twice. Treat all of them as explicit invocation adapters; keep `SKILL.md` as the behavior authority when updating them.
 
 ## Language Defaults
 

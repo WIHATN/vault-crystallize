@@ -5,7 +5,6 @@ param(
 $ErrorActionPreference = 'Stop'
 
 $requiredFiles = @(
-    '.codex-plugin/plugin.json',
     'SKILL.md',
     'commands/crystallize.md',
     'commands/distill.md',
@@ -15,8 +14,6 @@ $requiredFiles = @(
     'commands/claude/distill.md',
     'commands/gemini/crystallize.toml',
     'commands/gemini/distill.toml',
-    'codex/crystallize/SKILL.md',
-    'codex/distill/SKILL.md',
     'skills/crystallize/SKILL.md',
     'skills/distill/SKILL.md'
 )
@@ -32,22 +29,18 @@ if ($missing.Count -gt 0) {
     throw "Missing required artifact(s): $($missing -join ', ')"
 }
 
-$codexManifest = Get-Content -Raw -LiteralPath (Join-Path $Root '.codex-plugin/plugin.json') | ConvertFrom-Json
-if ($codexManifest.name -ne 'vault-crystallize') {
-    throw ".codex-plugin/plugin.json name must be vault-crystallize"
-}
-    if ($codexManifest.skills -ne './skills/') {
-    throw ".codex-plugin/plugin.json skills must point to ./skills/"
-}
-
 if (Test-Path -LiteralPath (Join-Path $Root '.claude-plugin')) {
     throw ".claude-plugin must not exist; Claude installation uses ordinary skills and command files"
+}
+if (Test-Path -LiteralPath (Join-Path $Root '.codex-plugin')) {
+    throw ".codex-plugin must not exist; Codex installation uses ordinary sibling skills"
+}
+if (Test-Path -LiteralPath (Join-Path $Root 'codex')) {
+    throw "codex/ must not exist; use skills/ as the single alias skill source"
 }
 
 $skillNames = @{
     'SKILL.md' = 'vault-crystallize'
-    'codex/crystallize/SKILL.md' = 'crystallize'
-    'codex/distill/SKILL.md' = 'distill'
     'skills/crystallize/SKILL.md' = 'crystallize'
     'skills/distill/SKILL.md' = 'distill'
 }
@@ -77,8 +70,6 @@ foreach ($installPath in $ordinaryClaudeLayout) {
 }
 
 $aliases = @{
-    'codex/crystallize/SKILL.md' = 'crystallize'
-    'codex/distill/SKILL.md' = 'distill'
     'skills/crystallize/SKILL.md' = 'crystallize'
     'skills/distill/SKILL.md' = 'distill'
 }
