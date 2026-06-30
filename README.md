@@ -1,39 +1,42 @@
-# vault-crystallize-skill
+# vault-crystallize
 
-Reusable skill for running the `vault-crystallize` workflow in an agent-managed knowledge vault.
+Reusable agent skill for checkpointing a knowledge vault into `Handoff.md` and `llm-wiki/`.
 
-## Purpose
+## Authority Boundary
 
-This skill is a thin execution wrapper. It does not replace the vault's own rules. The vault remains responsible for:
+`SKILL.md` owns the behavior of the `crystallize` and `distill` workflows.
 
-- `AGENTS.md` workspace boundaries.
-- `Handoff.md` recovery state.
-- `global/agent-rules/llm-wiki-protocol.md` knowledge-layer rules.
-- `global/agent-rules/llm-wiki-format.md` page templates.
+Vault protocols remain data contracts:
+
+- `AGENTS.md` defines workspace boundaries and write ownership.
+- `handoff-protocol.md` defines `Handoff.md` shape and limits.
+- `llm-wiki-protocol.md` defines wiki page schema, evidence handling, contradictions, integration, and health checks.
+
+There should be no separate `llm-wiki-protocol.md ## Crystallize` behavior section. Keeping even a pointer there recreates duplicate authority.
 
 ## Commands
 
-- `crystallize` / `结晶` / `结晶一下`: update recovery state and stable long-term memory when they changed.
-- `distill` / `蒸馏`: turn a concrete source into traced evidence entries with source block IDs.
+- `结晶` / `结晶一下` / `crystallize`: checkpoint recovery state and stable long-term knowledge only when changed.
+- `蒸馏` / `distill`: convert a concrete source into traced evidence entries.
+
+Do not use this skill for generic doc cleanup, deep audit, memory sync, or a polished summary unless explicitly requested.
 
 ## Installation Model
 
-This repository is the canonical source. Agents usually do not discover a workspace's `.agents/skills` automatically.
+This repository is the canonical source. Each agent should install or update the skill through its own supported mechanism from:
 
-Install or link this skill into the discovery location used by each agent:
+```text
+https://github.com/WIHATN/vault-crystallize
+```
 
-- Claude Code: create a `.claude/skills/vault-crystallize` junction or install through Claude Code's supported skill mechanism.
-- Codex: install into Codex's discoverable skill location or use Codex's supported skill installer.
-- Other agents: use their native skill/plugin installation flow.
-
-Do not rely on child project folders inheriting parent `.agents/skills` or parent `.claude/skills`.
+This repo does not prescribe local `.claude/skills`, `.agents/skills`, junction, or symlink layouts.
 
 ## Smoke Test
 
-After installation, start the target agent in the workspace and ask:
+After installation, start the target agent in a vault workspace and ask:
 
 ```text
-结晶一下；只说明你会读取哪个 protocol section，不要改文件。
+结晶一下；只说明这个 workflow 的行为权威在哪里，不要改文件。
 ```
 
-Expected: the agent identifies `global/agent-rules/llm-wiki-protocol.md ## Crystallize` and does not invoke a deep audit workflow.
+Expected: the agent says `vault-crystallize` / `SKILL.md` owns the crystallize workflow, protocols are only data contracts, and no deep audit or doc cleanup workflow is invoked.
