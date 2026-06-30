@@ -1,0 +1,60 @@
+description = "Turn a concrete source into cited, confidence-rated llm-wiki evidence entries."
+prompt = '''
+Execute the `vault-crystallize` distill workflow.
+
+User arguments:
+
+```text
+{{args}}
+```
+
+Behavior authority: `vault-crystallize` / `SKILL.md`. If that skill is installed, load and follow it. If it is unavailable, use this command as a self-contained fallback and keep the same authority boundary: vault protocols are data contracts only, not distill behavior.
+
+## Scope
+
+Use this only when the user explicitly says `distill`, `蒸馏`, or asks to turn a concrete source into traced evidence. Do not use it for generic cleanup, broad synthesis, memory sync, or a polished summary unless explicitly requested.
+
+## Language
+
+Write `Handoff.md` and `llm-wiki/` content in Chinese by default. Keep stable technical identifiers in English, including code, commands, variable names, paths, API names, package names, and source titles when preserving the original title matters.
+
+## Inputs
+
+- Source: a file path, pasted text, fetched URL content, note, PDF, or conversation excerpt.
+- Target unit: infer from source path or current task; if ambiguous, ask one concise question.
+- Destination: target unit `llm-wiki/evidence-log.md`.
+
+## Workflow
+
+1. Read the target unit `Handoff.md`.
+2. Read `global/agent-rules/llm-wiki-protocol.md` sections `## Evidence Log` and `## Pending Contradictions`.
+3. Split the source into numbered blocks `B1`, `B2`, `B3`, ... in source order. Keep raw long sources in `sources/` or `notes/`; put only pointers and concise evidence in `llm-wiki/`.
+4. Separate evidence from inference. Evidence claims cite `(src: Bn)`. Inferences name the source blocks they depend on.
+5. Assign confidence per conclusion: `high`, `medium`, `low`, or `unverified`.
+6. If new evidence contradicts existing `llm-wiki/`, follow `## Pending Contradictions`; do not silently overwrite.
+7. Run the smallest relevant read-only validation. If files were created, moved, renamed, or the user is switching threads/agents, run the vault health suite from the vault root.
+
+Evidence entry shape:
+
+```markdown
+### YYYY-MM-DD · <source title>
+- **来源：** [[relative/source-or-note]]
+- **原文块：**
+  - B1: <short source locator or excerpt summary>
+  - B2: <short source locator or excerpt summary>
+- **证据结论：**
+  - <claim> (src: B1) - confidence: <high|medium|low|unverified>
+- **推断：**
+  - <inference> (from: B1+B2) - confidence: <high|medium|low|unverified>
+- **待验证：** <specific verification need, or `无`>
+```
+
+## Review Checklist
+
+- `evidence-log.md` has required frontmatter and the correct page type.
+- Claims are concise, confidence-rated, and source-linked.
+- Inference is separated from direct evidence.
+- Unresolved contradictions are recorded in the designated place instead of hidden.
+- Long raw material stays in `sources/` or `notes/`, not pasted wholesale into `llm-wiki/`.
+- No aliased wikilinks appear inside Markdown tables.
+'''

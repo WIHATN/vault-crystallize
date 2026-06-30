@@ -25,6 +25,14 @@ Do not use this skill for `neat-freak`, deep audits, broad doc cleanup, memory s
 
 Agents that have not installed this skill are an installation/update concern, not a reason to duplicate crystallize behavior back into vault protocols. Do not create `.claude/skills`, `.agents/skills`, junctions, or per-agent install paths unless the user explicitly asks for installation work.
 
+Native slash-command wrappers live in `commands/<agent>/`. Treat them as explicit invocation adapters for agents that support custom slash commands; keep `SKILL.md` as the behavior authority when updating them.
+
+## Language Defaults
+
+Write `Handoff.md` and `llm-wiki/` content in Chinese by default. Keep stable technical identifiers in English, including code, commands, variable names, paths, API names, package names, and source titles when preserving the original title matters.
+
+Use another language only when the user explicitly asks for it, when quoting source material, or when an existing project rule is more specific for that unit.
+
 ## Command: crystallize
 
 1. Identify the current unit:

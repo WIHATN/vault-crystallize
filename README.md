@@ -21,6 +21,22 @@ There should be no separate `llm-wiki-protocol.md ## Crystallize` behavior secti
 
 Do not use this skill for generic doc cleanup, deep audit, memory sync, or a polished summary unless explicitly requested.
 
+## Native Slash Commands
+
+The skill remains the behavior authority. Native slash command files are thin explicit-invocation adapters for agents that require command registration:
+
+| Agent | Files | Register by copying to | Invoke |
+|---|---|---|---|
+| Codex | `commands/codex/*.md` | `~/.codex/prompts/` | `/prompts:crystallize`, `/prompts:distill` |
+| Claude Code | `commands/claude/*.md` | `~/.claude/commands/` or project `.claude/commands/` | `/crystallize`, `/distill` |
+| Gemini CLI | `commands/gemini/*.toml` | `~/.gemini/commands/` or project `.gemini/commands/` | `/crystallize`, `/distill` |
+
+Notes:
+
+- Codex custom prompts are deprecated, but still provide explicit slash-command UX in Codex CLI and IDE extension.
+- Claude Code treats `.claude/commands/` as the legacy command format; skills are the recommended current package format, but command files still register `/name`.
+- Gemini CLI loads TOML commands from `.gemini/commands/`; use `/commands reload` after copying command files into a running session.
+
 ## Installation Model
 
 This repository is the canonical source. Each agent should install or update the skill through its own supported mechanism from:
@@ -30,6 +46,8 @@ https://github.com/WIHATN/vault-crystallize
 ```
 
 This repo does not prescribe local `.claude/skills`, `.agents/skills`, junction, or symlink layouts.
+
+Slash-command wrappers under `commands/` are source artifacts. Copy them into the target agent's supported command directory only when explicit slash-command UX is wanted.
 
 ## Smoke Test
 
