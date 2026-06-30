@@ -21,21 +21,28 @@ There should be no separate `llm-wiki-protocol.md ## Crystallize` behavior secti
 
 Do not use this skill for generic doc cleanup, deep audit, memory sync, or a polished summary unless explicitly requested.
 
-## Native Slash Commands
+## Explicit Invocation
 
-The skill remains the behavior authority. Native slash command files are thin explicit-invocation adapters for agents that require command registration:
+The skill remains the behavior authority. For ordinary installation, use the normal skill and command directories directly:
 
 | Agent | Files | Register by copying to | Invoke |
 |---|---|---|---|
-| Codex | `commands/codex/*.md` | `~/.codex/prompts/` | `/prompts:crystallize`, `/prompts:distill` |
-| Claude Code | `commands/claude/*.md` | `~/.claude/commands/` or project `.claude/commands/` | `/crystallize`, `/distill` |
+| Codex main skill | `SKILL.md` | `~/.codex/skills/vault-crystallize/SKILL.md` | `$vault-crystallize` |
+| Codex alias skills | `skills/crystallize/`, `skills/distill/` or `codex/crystallize/`, `codex/distill/` | `~/.codex/skills/crystallize/`, `~/.codex/skills/distill/` | `$crystallize`, `$distill` |
+| Codex prompts | `commands/codex/*.md` | `~/.codex/prompts/` | `/prompts:crystallize`, `/prompts:distill` |
+| Claude Code skill | `SKILL.md` | `~/.claude/skills/vault-crystallize/SKILL.md` | `/vault-crystallize` |
+| Claude Code alias skills | `skills/crystallize/`, `skills/distill/` | `~/.claude/skills/crystallize/`, `~/.claude/skills/distill/` | `/crystallize`, `/distill` |
+| Claude Code commands | `commands/*.md` | `~/.claude/commands/` or project `.claude/commands/` | `/crystallize`, `/distill` |
 | Gemini CLI | `commands/gemini/*.toml` | `~/.gemini/commands/` or project `.gemini/commands/` | `/crystallize`, `/distill` |
 
 Notes:
 
+- Codex ordinary skill installation uses sibling directories under `~/.codex/skills/`: `vault-crystallize`, `crystallize`, and `distill`.
+- Claude ordinary skill installation can use the same alias skill directories under `~/.claude/skills/`; command files are a compatibility path, not a plugin requirement.
 - Codex custom prompts are deprecated, but still provide explicit slash-command UX in Codex CLI and IDE extension.
-- Claude Code treats `.claude/commands/` as the legacy command format; skills are the recommended current package format, but command files still register `/name`.
+- Claude Code skills are the recommended current package format and can be invoked as `/skill-name`; `.claude/commands/` remains the legacy command format that still registers `/name`.
 - Gemini CLI loads TOML commands from `.gemini/commands/`; use `/commands reload` after copying command files into a running session.
+- `.codex-plugin/plugin.json` is optional Codex plugin metadata. This repo does not require plugin installation for Codex or Claude.
 
 ## Installation Model
 
@@ -47,7 +54,7 @@ https://github.com/WIHATN/vault-crystallize
 
 This repo does not prescribe local `.claude/skills`, `.agents/skills`, junction, or symlink layouts.
 
-Slash-command wrappers under `commands/` are source artifacts. Copy them into the target agent's supported command directory only when explicit slash-command UX is wanted.
+Explicit-invocation wrappers under `commands/` and `codex/` are source artifacts. Copy them into the target agent's supported command directory only when that UX is wanted.
 
 ## Smoke Test
 

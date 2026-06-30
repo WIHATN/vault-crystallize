@@ -1,0 +1,36 @@
+{
+  "name": "vault-crystallize",
+  "version": "0.3.1",
+  "description": "Checkpoint agent-managed knowledge vaults into Handoff.md and llm-wiki with explicit crystallize and distill entry points.",
+  "author": {
+    "name": "WIHATN",
+    "url": "https://github.com/WIHATN"
+  },
+  "homepage": "https://github.com/WIHATN/vault-crystallize",
+  "repository": "https://github.com/WIHATN/vault-crystallize",
+  "license": "MIT",
+  "keywords": [
+    "vault",
+    "obsidian",
+    "handoff",
+    "llm-wiki",
+    "crystallize",
+    "distill",
+    "knowledge-management"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Vault Crystallize",
+    "shortDescription": "Checkpoint vault recovery state and distilled evidence.",
+    "longDescription": "Keeps crystallize and distill behavior in SKILL.md while adding Codex alias skills for explicit $crystallize and $distill invocation.",
+    "developerName": "WIHATN",
+    "category": "Productivity",
+    "capabilities": ["Write"],
+    "websiteURL": "https://github.com/WIHATN/vault-crystallize",
+    "defaultPrompt": [
+      "结晶一下；只更新真实变化的 Handoff 和 llm-wiki。",
+      "Distill this source into confidence-rated evidence entries."
+    ],
+    "brandColor": "#2563EB"
+  }
+}
